@@ -88,9 +88,11 @@ char extraLetter(std::string a, std::string b)
 
     for (int i = 0; i < b.size(); ++i) {
 
+        if (hashMapA.find(b[i]) == hashMapA.end() || hashMapA[b[i]] == 0) {
             return b[i];
-
-        hashMapA[b[i]]--;
+        } else {
+            hashMapA[b[i]]--;
+        }
     }
 
     return '\0';
