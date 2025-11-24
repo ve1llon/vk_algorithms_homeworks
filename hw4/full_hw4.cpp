@@ -35,30 +35,32 @@ TreeNode* buildTree(std::vector<int> arr, int i) {
 /// Task2. Проверка на симметричность бинарного дерева. (bfs)
 
 bool isSymmetric(TreeNode* root) {
-    if (root == nullptr)
-        return true;
+    if (root == nullptr) return true;
 
-    std::vector<TreeNode*> queue {root};
+    std::queue<TreeNode*> q1, q2;
+    q1.push(root->left);
+    q2.push(root->right);
 
-    while (!queue.empty()) {
-        int n = queue.size();
+    while (!q1.empty() && !q2.empty()) {
+        TreeNode* left = q1.front();
+        q1.pop();
+        TreeNode* right = q2.front();
+        q2.pop();
 
-        for (int i = 0; i < n; ++i) {
-            if (queue[i] == nullptr && queue[n-i-1] == nullptr)
-                continue;
-            if (queue[i] == nullptr || queue[n-i-1] == nullptr)
-                return false;
-            if (queue[i]->data != queue[n-i-1]->data)
-                return false;
+        if (left == nullptr && right == nullptr)
+            continue;
+        if (left == nullptr || right == nullptr)
+            false;
+        if (left->data != right->data)
+            return false;
 
-            queue.push_back(queue[i]->left);
-            queue.push_back(queue[i]->right);
-        }
-        std::vector<TreeNode*> temp(queue.begin()+n, queue.end());
-        queue = temp;
+        q1.push(left->left);
+        q1.push(left->right);
+        q2.push(right->right);
+        q2.push(right->left);
     }
 
-    return true;
+    return q1.empty() && q2.empty();
 }
 
 
